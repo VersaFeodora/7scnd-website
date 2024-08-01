@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\Post;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\URL;
 
 class ProductController extends Controller
 {
@@ -19,15 +22,28 @@ class ProductController extends Controller
      */
     public function index(Request $request){
         $keyword = $request->search;
+        if($request->has('size')) {
+            $keyword = $request->size;
+        }
+        if($request->has('color')) {
+            $keyword = $request->color;
+        }
+        if($request->has('category')) {
+            $keyword = $request->category;
+        }
+        
         $products = DB::table('products')
                     ->leftJoin('categories', 'products.category_id', '=', 'categories.id', 'AS', 'category_id')
                     ->select('products.*', 'categories.category_name')
                     ->where('products.product_name', 'like', '%'.$keyword.'%')
                     ->orwhere('products.product_brand', 'like', '%'.$keyword.'%')
-                    ->orwhere('products.product_size', 'like', '%'.$keyword.'%')
+                    ->orwhere('products.product_size', $keyword)
+                    ->orwhere('products.product_color', 'like', '%'.$keyword.'%')
                     ->orwhere('categories.category_name', 'like', '%'.$keyword.'%')
                     ->orderBy('products.id', 'ASC');
         $categories = DB::table('categories')->get();
+        $posts = DB::table('posts')
+        ->orderBy('posts.id', 'DESC')->get();
 
         $cat = $request->input('category');
         if (is_countable($cat)) {
@@ -42,7 +58,8 @@ class ProductController extends Controller
         return view('index', [
             'products' => $products,
             'categories' => $categories,
-            'colors' => $colors
+            'colors' => $colors,
+            'posts' => $posts
         ]);
     }
 
@@ -102,9 +119,11 @@ class ProductController extends Controller
             ->select('products.*', 'categories.category_name')
             ->where('products.id', $id)
             ->first();
+        $url =URL::to($products->product_url);
         return view('products.productdetail', [
             'product'=>$products,
-            'title' => 'show'
+            'title' => 'show',
+            'url' => $url
         ]);
     }
 
@@ -143,10 +162,11 @@ class ProductController extends Controller
         }
 
         $params = $request->validated();
+        $params = Arr::except($params, ['image']);
 
         if(!empty($imagePath)) {
             Storage::delete($prod->product_img);
-            Product::where('id',$id)->update($imagePath);
+            Product::where('id',$id)->update(['product_img'=>$imagePath]);
         }
         Product::where('id',$id)->update($params);
         return redirect(route('indexAdmin'))->with('success', 'Updated!');

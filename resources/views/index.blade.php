@@ -27,7 +27,8 @@
 
 <body>
     <x-head />
-
+    <h3 class="text-center">New Event</h3>
+    <x-carousel :data=$posts/>
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -36,10 +37,10 @@
                 <!-- Price Start -->
                 <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by type</h5>
-                    <form>
+                    <form action="{{ route('index') }}">
                         @foreach ($categories as $category)
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" name="category[]" id="{{$category->id}}" onChange="this.form.submit()" value="{{ $category->id }}"">
+                            <input type="checkbox" class="custom-control-input" name="category" id="{{$category->id}}" onChange="this.form.submit()" value="{{$category->category_name}}">
                             <label class="custom-control-label" for="{{$category->id}}">{{$category->category_name}}</label>
                         </div>
                         @endforeach
@@ -50,14 +51,10 @@
                 <!-- Color Start -->
                 <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
-                    <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="color-all">
-                            <label class="custom-control-label" for="price-all">All Color</label>
-                        </div>
+                    <form action="{{ route('index') }}">
                         @foreach ($colors as $color)
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="{{$color->product_color}}">
+                            <input type="checkbox" class="custom-control-input" name="color" id="{{$color->product_color}}" value="{{$color->product_color}}" onChange="this.form.submit()">
                             <label class="custom-control-label" for="{{$color->product_color}}">{{$color->product_color}}</label>
                         </div>
                         @endforeach
@@ -72,34 +69,26 @@
                 <!-- Size Start -->
                 <div class="mb-5">
                     <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
-                    <form>
+                    <form action="{{ route('index') }}">
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="size-all">
-                            <label class="custom-control-label" for="size-all">All Size</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-1">
+                            <input type="checkbox" name="size" class="custom-control-input" id="size-1" value="XS" onChange="this.form.submit()">
                             <label class="custom-control-label" for="size-1">XS</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-2">
+                            <input type="checkbox" name="size" class="custom-control-input" id="size-2" value="S" onChange="this.form.submit()">
                             <label class="custom-control-label" for="size-2">S</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-3">
+                            <input type="checkbox" name="size" class="custom-control-input" id="size-3" value="M" onChange="this.form.submit()">
                             <label class="custom-control-label" for="size-3">M</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="size-4">
+                            <input type="checkbox" name="size" class="custom-control-input" id="size-4" value="L" onChange="this.form.submit()">
                             <label class="custom-control-label" for="size-4">L</label>
                         </div>
                         <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="size-5">
+                            <input type="checkbox" name="size" class="custom-control-input" id="size-5" value="XL" onChange="this.form.submit()">
                             <label class="custom-control-label" for="size-5">XL</label>
-                        </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="size-6">
-                            <label class="custom-control-label" for="size-6">Others</label>
                         </div>
                     </form>
                 </div>
@@ -140,10 +129,10 @@
                         </div>
                     </div>
                     @foreach ($products as $product)
-                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                         <div class="card product-item border-0 mb-4">
-                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                <img class="img-fluid w-100" src="{{$product->product_img}}" alt="">
+                            <div class="card-header position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="w-100" src="{{$product->product_img}}" alt="">
                             </div>
                             <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                 <h6 class="text-truncate mb-3">{{$product->product_name}}</h6>

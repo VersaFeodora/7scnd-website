@@ -58,7 +58,7 @@
                     <p class="text-dark font-weight-medium mb-0 mr-3">Color: {{$product->product_color}}</p>
                 </div>
                 <div class="d-flex pt-2">
-                    <a href="https://{{$product->product_url}}" class="btn btn-primary btn-block border-0 py-3 text-light font-weight-bolder">Shopee Link</a>
+                    <a href="{{ $url }}" class="btn btn-primary btn-block border-0 py-3 text-light font-weight-bolder">Shopee Link</a>
                 </div>
             </div>
         </div>

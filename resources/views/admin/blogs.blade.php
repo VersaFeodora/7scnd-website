@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Product List</title>
+    <title>Users List</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -32,7 +32,7 @@
     <div class="container-fluid py-5">
             <form action="{{ route('indexAdmin') }}">
                 <div class="input-group">
-                    <input value="{{ request('search') }}" type="search" id="search" class="form-control" name="search" placeholder="Search by Name">
+                    <input value="{{ request('search') }}" type="search" id="search" class="form-control" name="search" placeholder="Search by Content">
                     <div class="">
                         <button type="submit" class="btn">
                             <span class="bg-transparent text-primary">
@@ -45,7 +45,7 @@
         </div>
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex align-items-center justify-content-between">
-                <a href="/addproduct"><button class="p-2 btn btn-primary text-light text-weight-bolder">Add Product</button></a>
+                <a href="/addblog"><button class="p-2 btn btn-primary text-light text-weight-bolder">Add Post</button></a>
                 <button class="btn border dropdown-toggle" type="button" id="sort" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     Sort by
@@ -61,51 +61,40 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>Pic</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Details</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>Title</th>
+                                <th>timestamp</th>
+                                <th>Content</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php $count=1 @endphp
-                            @foreach ($products as $product)
+                            @foreach ($blogs as $blog)
                             <tr>
                                 <td>{{$count++}}</td>
-                                <td><img src="{{asset($product->product_img)}}" class="m-3 w-50 h-50 mx-auto d-block" alt="{{$product->product_img}}"></td>
-                                <td>{{$product->product_name}}</td>
-                                <td>{{$product->category_name}}</td>
-                                <td>{{$product->product_brand}}, {{$product->product_color}}, {{$product->product_size}}</td>
-                                <td>Rp{{$product->product_price}}</td>
+                                <td>{{$blog->title}}</td>
+                                <td>{{$blog->created_at}}</td>
                                 <td>
-                                    @if ($product->product_qty == 0)
-                                        <p class="text-danger">Sold Out</p>
-                                    @else
-                                        <p class="text-success">Qty: {{$product->product_qty}}</p>
-                                    @endif
-                                </td>
-                                <td class="w-25">
-                                    <div class="btn-group d-flex align-items-center justify-content-between m-2">
-                                        <a href="/soldout/{{($product->id)}}" class="col-6 btn btn-info text-light p-2">
-                                            <i class="fas fa-solid fa-star"></i>
-                                            <p>Change to Sold Out</p>
-                                        </a>
+                                    <div class="d-flex justify-content-center m-4">
+                                        <img src="{{$blog->img_url}}" alt="" class="image-fluid overflow-hidden" style="max-width: 100%; max-height: 300px; background-size: cover;">
                                     </div>
+                                    <p>{{mb_substr($blog->content, 0, 250, 'utf8').'...'}}</p>
+                                </td>
+                                <td class="w-25 justify-content-center">
                                     <div class="btn-group d-flex align-items-center justify-content-between m-2">
-                                        <a href="/editproduct/{{($product->id)}}" class="col-6 btn btn-warning text-light p-2">
+                                        <a href="editblog/{{$blog->slug}}" class="col-12 col-lg-6 btn btn-warning text-light p-2">
                                             <i class="fas fa-solid fa-file"></i>
                                             <p>Edit</p>
                                         </a>
                                     </div>
+                                    @if($count > 1)
                                     <div class="btn-group d-flex align-items-center justify-content-between m-2">
-                                        <a href="/delete/{{($product->id)}}" class="col-6 btn btn-danger text-light p-2">
+                                        <a href="" class="col-12 col-lg-6 btn btn-danger text-light p-2">
                                             <i class="fas fa-solid fa-trash"></i>
                                             <p>Delete</p>
                                         </a>
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

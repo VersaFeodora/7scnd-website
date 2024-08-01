@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', [ProductController::class, 'index'])->name('index');
 
@@ -31,4 +32,13 @@ Route::get('/delete/{id}', [ProductController::class, 'destroy'])->name('destroy
 
 Route::get('/soldout/{id}', [ProductController::class, 'soldOut'])->name('soldOut');
 
-// Users
+// Posts
+Route::get('/post', function () {
+    return view('blogs.blogdetail');
+});
+Route::get('/blog/{id}', [PostController::class, 'show'])->name('show');
+Route::get('/blogs', [PostController::class, 'indexAdmin'])->name('indexAdmin');
+Route::get('/addblog', [PostController::class, 'create'])->name('create');
+Route::get('/editblog/{id}', [PostController::class, 'showEdit'])->name('showEdit');
+Route::post('/addblog', [PostController::class, 'store'])->name('store');
+Route::post('/editblog/{id}', [PostController::class, 'update'])->name('update');

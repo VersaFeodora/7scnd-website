@@ -70,9 +70,12 @@
     <div class="container-fluid py-5">
         <form class="row px-xl-5" method="POST" action="{{ route('create') }}" enctype="multipart/form-data">
             @csrf
-            <div class="form-group col-lg-5 pb-5 flex d-flex border">
-                <label class=" align-self-center" for="exampleFormControlFile1">Input photo</label>
-                <input type="file" class="form-control-file align-self-center" id="image" name="image">
+            <div class="form-group col-lg-5 pb-5 d-flex flex-column align-items-center border">
+                <img id="imagePreview" src="#" alt="Your image" style="max-width: 100%; height: auto; display: none;">
+                <div>
+                <label class="align-self-center mt-3" for="exampleFormControlFile1">Input photo</label>
+                <input type="file" class="form-control-file align-self-center mt-2" id="image" name="image" onchange="loadFile(event)">
+                </div>
             </div>
             <div class="col-lg-7 pb-5">
             <div class="form-group row">
