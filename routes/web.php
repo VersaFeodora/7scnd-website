@@ -42,3 +42,4 @@ Route::get('/addblog', [PostController::class, 'create'])->name('create');
 Route::get('/editblog/{id}', [PostController::class, 'showEdit'])->name('showEdit');
 Route::post('/addblog', [PostController::class, 'store'])->name('store');
 Route::post('/editblog/{id}', [PostController::class, 'update'])->name('update');
+Route::get('/deleteblog/{id}', [PostController::class, 'destroy'])->name('destroy');

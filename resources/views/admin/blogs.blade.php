@@ -89,7 +89,7 @@
                                     </div>
                                     @if($count > 1)
                                     <div class="btn-group d-flex align-items-center justify-content-between m-2">
-                                        <a href="" class="col-12 col-lg-6 btn btn-danger text-light p-2">
+                                        <a href="deleteblog/{{$blog->id}}" class="col-12 col-lg-6 btn btn-danger text-light p-2">
                                             <i class="fas fa-solid fa-trash"></i>
                                             <p>Delete</p>
                                         </a>

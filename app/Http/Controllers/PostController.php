@@ -108,5 +108,9 @@ class PostController extends Controller
         Post::where('slug',$id)->update($params);
         return redirect(route('indexAdmin'))->with('success', 'Updated!');
     }
-
+    public function destroy($id)
+    {
+        Post::destroy($id);
+        return redirect(route('indexAdmin'))->with('success', 'Deleted!');
+    }
 }
